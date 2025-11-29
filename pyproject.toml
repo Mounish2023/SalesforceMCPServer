@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "salesforce-mcp-server"
+version = "0.1.0"
+description = "Salesforce MCP Server"
+requires-python = ">=3.12"
+dependencies = [
+    "openmcp @ git+https://github.com/dedalus-labs/openmcp-python.git",
+    "requests>=2.31.0",
+]
+
+[project.scripts]
+salesforce-mcp = "main:main"
