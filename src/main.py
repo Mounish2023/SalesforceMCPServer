@@ -20,12 +20,11 @@ from client import SalesforceClient
 import logging
 from typing import Any
 
+import sys
+from dotenv import load_dotenv
 
-# Suppress logs for clean output
-for logger_name in ("mcp", "httpx", "uvicorn", "uvicorn.access", "uvicorn.error"):
-    logging.getLogger(logger_name).setLevel(logging.CRITICAL)
 
-mcp = FastMCP("salesforce-mcp-server")
+mcp = FastMCP('Salesforce MCP Server')
 
 # Initialize Salesforce client (will use client_credentials authentication)
 sf_client = None
@@ -40,7 +39,7 @@ def get_client() -> SalesforceClient:
 
 
 
-@mcp.tool(description="Retrieve a list of Salesforce accounts")
+@mcp.tool()
 def get_accounts(limit: int = 10, fields: list[str] | None = None) -> list[dict[str, Any]]:
     """Returns account details including ID, Name, Type, Industry, Phone, Website, and billing information.
     
@@ -50,6 +49,7 @@ def get_accounts(limit: int = 10, fields: list[str] | None = None) -> list[dict[
     """
     client = get_client()
     return client.get_accounts(limit=limit, fields=fields)
+    # return "Hello World"
 
 @mcp.tool(description="Retrieve a specific Salesforce account by its ID")
 def get_account_by_id(account_id: str, fields: list[str] | None = None) -> dict[str, Any]:
@@ -131,27 +131,14 @@ def get_account_contacts(account_id: str, limit: int = 10) -> list[dict[str, Any
     return client.get_account_contacts(account_id, limit=limit)
 
 
-def main() -> None:
-    """Start the MCP server on streamable-http transport."""
-    print("🚀 Starting Salesforce MCP Server...")
-    print("📡 Transport: streamable-http")
-    print("🔧 Available tools: get_accounts, get_account_by_id, search_accounts, create_account,")
-    print("                   update_account, delete_account, get_account_opportunities, get_account_contacts")
-    print()
-    
-    # Initialize the client on startup
-    try:
-        get_client()
-        print("✅ Salesforce client initialized successfully")
-    except Exception as e:
-        print(f"⚠️  Warning: Failed to initialize Salesforce client: {e}")
-        print("   Server will start but tools may fail until client is configured properly")
-    
-    print()
-    mcp.run()
-    return 0
+def main():
+    """Main entry point for the MCP server"""
+    print("Starting Salesforce MCP Server...")
+    # STDIO transport (default for MCP)
+    print("Transport: stdio")
+    mcp.run(transport='stdio')
+    # return None
 
+# if __name__ == "__main__":
+#     main()
 
-if __name__ == "__main__":
-    import sys
-    sys.exit(main())

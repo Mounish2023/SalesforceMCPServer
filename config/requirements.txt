@@ -4,9 +4,9 @@ dedalus-labs>=0.1.0
 # Core dependencies for MCP server
 
 python-dotenv
-
 # For AI-powered Q&A functionality
 openai
+anthropic
 
 # Optional: Dedalus integration
 # dedalus-labs>=0.1.0

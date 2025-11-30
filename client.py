@@ -6,6 +6,8 @@ import os
 import logging
 import requests
 from typing import Optional, Dict, Any, List
+from dotenv import load_dotenv
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +27,9 @@ class SalesforceClient:
         self.instance_url = os.environ.get("SALESFORCE_INSTANCE_URL")
         self.access_token = None
         # self.refresh_token = os.environ.get("SALESFORCE_REFRESH_TOKEN")
-        
+        # print(self.client_id)
+        # print(self.client_secret)
+        # print(self.instance_url)
         if not all([self.client_id, self.client_secret]):
             logger.warning("Salesforce credentials not fully configured")
         
@@ -49,7 +53,7 @@ class SalesforceClient:
             raise ValueError("SALESFORCE_CLIENT_ID and SALESFORCE_CLIENT_SECRET are required")
         
         # Use instance_url if set, otherwise use default login URL
-        base_url = self.instance_url or os.environ.get("SALESFORCE_LOGIN_URL", "https://login.salesforce.com")
+        base_url = self.instance_url or os.environ.get("SALESFORCE_INSTANCE_URL", "https://orgfarm-f2b8e19683-dev-ed.develop.my.salesforce.com")
         # Remove /services/oauth2/token if already in instance_url
         if "/services/oauth2/token" in base_url:
             token_url = base_url
