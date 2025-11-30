@@ -1,16 +1,21 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "salesforce-mcp-server"
-version = "0.1.0"
-description = "Salesforce MCP Server"
-requires-python = ">=3.12"
+version = "1.0.0"
+requires-python = ">=3.10"
 dependencies = [
-    "openmcp @ git+https://github.com/dedalus-labs/openmcp-python.git",
+    "mcp",
+    "python-dotenv",
+    "openai",  # or any other dependencies
     "requests>=2.31.0",
 ]
 
+[tool.setuptools]
+packages = ["src"]
+py-modules = ["main"]
+
 [project.scripts]
-salesforce-mcp = "main:main"
+main = "main:main"
