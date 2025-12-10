@@ -135,8 +135,8 @@ def main():
     """Main entry point for the MCP server"""
     print("Starting Salesforce MCP Server...")
     # STDIO transport (default for MCP)
-    print("Transport: stdio")
-    mcp.run(transport='stdio')
+    print("Transport: streamable-http")
+    mcp.run(transport="streamable-http")
     # return None
 
 if __name__ == "__main__":
